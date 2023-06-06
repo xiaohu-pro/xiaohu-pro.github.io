@@ -196,4 +196,86 @@
         <tag>Go语言</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Go语言中多模块工作空间使用</title>
+    <url>/2023/06/06/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="Go语言中的多模块工作空间介绍"><a href="#Go语言中的多模块工作空间介绍" class="headerlink" title="Go语言中的多模块工作空间介绍"></a>Go语言中的多模块工作空间介绍</h1><p>本片主要是介绍了Go语言中多模块工作空间的基础知识。使用多模块工作空间，我们可以告诉Go命令我们正在同时在多个模块下编写代码，并可以轻松的在这些模块中构建和运行代码。</p>
+<p>下面我们将在共享的多模块工作空间中创建两个模块，然后在这些模块之间进行修改，并在最终的构建中看到这些修改的结果。</p>
+<p><strong>注意：如果你还没有安装Go语言环境和使用基本的命令并创建模块等基本操作的话请阅读我的另外一篇博客：<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>。</strong></p>
+<h2 id="创建我们自己的模块"><a href="#创建我们自己的模块" class="headerlink" title="创建我们自己的模块"></a>创建我们自己的模块</h2><p>首先我们创建自己的模块并编写代码，在这之前我们先创建文件夹，由于我们要使用工作空间，因此我们先创建一个大的文件夹，这里我将其命名为 workspace ，后续的模块文件夹都会放到该目录下。</p>
+<p>在创建好 workspace 文件夹后进入到该文件夹下再创建我们的模块文件夹，这里还是以 hello 模块作为演示吧，所以创建 hello 文件夹并进入到hello目录下，初始化模块：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init example.com/hello</span><br></pre></td></tr></table></figure>
+
+<p>下面我们使用 <code>go get</code> 命令来为 hello 模块添加 golang.org&#x2F;x&#x2F;example 依赖，因为我们要使用这个模块中的方法。在博客<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>中有一个 <code>go mod tidy</code>的命令，如果你不使用<code>go get</code>在代码中的import中引入了这个模块时，使用<code>go mod tidy</code>也可以添加依赖，但是<code>go mod tidy</code>和<code>go get</code>还是有区别的，<code>go mod tidy</code>我们说过它除了可以添加依赖还可以清理无用依赖，一般我们拿到一个Go项目后通常运行一下<code>go mod tidy</code>来确保所有依赖被下载。如果你熟悉前端的npm或者yarn的话你可以把<code>go mod tidy</code>比作<code>yarn</code>或<code>npm install</code>命令，它是一个全局性的，而<code>go get</code>类似于<code>yarn add</code>和<code>npm install</code>命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go get golang.org/x/example</span><br></pre></td></tr></table></figure>
+
+<p>然后创建 hello.go 文件，并编写代码，如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//反转字符串Hello</span></span><br><span class="line">    fmt.Println(stringutil.Reverse(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建工作空间"><a href="#创建工作空间" class="headerlink" title="创建工作空间"></a>创建工作空间</h2><p>下面我们在 workspace 目录下生成一个 go.work 文件，这个文件的作用是为模块指定工作空间。</p>
+<h3 id="初始化工作空间"><a href="#初始化工作空间" class="headerlink" title="初始化工作空间"></a>初始化工作空间</h3><p>在 workspace 目录下运行下面的指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work init ./hello</span><br></pre></td></tr></table></figure>
+<p>执行完上面的指令后会在 workspace 中自动生成了一个 go.work 文件，下面是 go.work 文件中的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use ./hello</span><br></pre></td></tr></table></figure>
+<p>它的语法和 go.mod 文件类似，第一行是中<code>go</code>指令告诉Go应该使用哪个版本，use告诉我们哪个目录下的模块是主模块。因此，工作空间下的任何子目录魔窟都将处于激活状态。这里是什么意思呢？通过一个演示我们就明白了，我们在workspace 目录下新建一个test目录，然后将刚刚的 go.work 文件先删掉，再进入到test目录下，运行hello模块</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found <span class="keyword">in</span> current directory or any parent directory; see <span class="string">&#x27;go help modules&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到是无法运行成功的，下面我们再把 go.work 文件恢复或者再次使用上面的<code>go work init ./hello</code>初始化一下，此时我们再进入到test文件夹运行会运行成功。</p>
+<h3 id="在workspace目录运行程序"><a href="#在workspace目录运行程序" class="headerlink" title="在workspace目录运行程序"></a>在workspace目录运行程序</h3><p>在workspace目录下执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">olleH</span><br></pre></td></tr></table></figure>
+<p>上面的命令包含所有的模块作为主模块在工作空间，这使得我们可以引用模块中的包，甚至可以引用模块外的包。<br>下面，我们将在工作空间中添加一个<code>golang.org/x/example</code>模块的本地副本，我们将在这个模块的<code>stringutil</code>包中添加一个新的方法来代替<code>Reverse</code>方法。</p>
+<h2 id="下载并修改golang-org-x-example模块"><a href="#下载并修改golang-org-x-example模块" class="headerlink" title="下载并修改golang.org/x/example模块"></a>下载并修改<code>golang.org/x/example</code>模块</h2><p>我们使用<code>git</code>将<code>golang.org/x/example</code>模块克隆到 workspace 文件夹下，也就是我们的工作空间下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://go.googlesource.com/example</span><br></pre></td></tr></table></figure>
+
+<p>如果上面的克隆地址无法正常使用多半是因为国内无法访问该网址的问题，请尝试官方为其在GitHub设置的镜像仓库，换成如下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/golang/example</span><br></pre></td></tr></table></figure>
+
+<p>然后同样的，我们将这个模块目录添加到工作空间中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work use ./example</span><br></pre></td></tr></table></figure>
+
+<p>运行完上面的命令后，go.work 文件也发生了变化，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use (</span><br><span class="line">    ./example</span><br><span class="line">    ./hello</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>现在我们工作空间中包含了两个模块，一个是刚刚克隆到本地的 <code>golang.org/x/example</code>另一个是我们最开始创建的<code>example.com/hello</code>。这将允许我们使用一会我们在拉取模块中stringutil的副本中编写的代码，而不使用<code>go get</code>命令下载的模块缓存中的代码。</p>
+<p>下面我们就来添加一个新的方法吧，首先我们进入到 workspace&#x2F;example&#x2F;stringuil 目录下，然后创建一个名为 toupper.go 的文件，接着添加如下代码：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> stringutil</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;unicode&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToUpper</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    r := []<span class="type">rune</span>(s)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> r &#123;</span><br><span class="line">        r[i] = unicode.ToUpper(r[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">string</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面新添加的方法顾名思义，就是将传进来的参数转为大写，这里有一个新的类型 rune ，它是Go的一个内置类型，因为这里用到了Unicode，在这里可以把它理解为一个Unicode字符，在处理字符串尤其是包含多种语言字符串情况下它会使用的比较多</p>
+<p>接下来，我们回到 workspace&#x2F;hello 目录下修改我们的 hello.go 文件，将Revers方法替换为ToUpper方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(stringutil.ToUpper(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在 workspace 目录下再次运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HELLO</span><br></pre></td></tr></table></figure>
+
+<p>上面Go命令会根据go.work文件找到工作目录下包含的模块文件夹，然后找到对应我们运行命令中的模块，类似的，也会根据 go.work 解析导入 golang.org&#x2F;x&#x2F;example，如果我们把 go.work 删除掉，也就是没有使用Go的工作空间时那么会发生什么，我们来试一下， 这里我先把 go.work 文件删除掉，然后重新运行，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found in current directory or any parent directory; see &#x27;go help modules&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，没有了 go.work 文件 workspace 就是一个普通的目录，它不知道该去哪里找模块，那我们进入到 hello 文件夹下直接运行会发生什么呢？运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># example.com/hello</span><br><span class="line">.\hello.go:9:25: undefined: stringutil.ToUpper</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，提示我们没有定义 stringutil.ToUpper ，同样也是因为没有了 go.work 的指引，我们的 hello.go 不知道去哪里找这个方法</p>
+<p>还记得<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>里的例子吗？hello 和 greetings 也是两个不同的模块，他们之间的互相调用是使用了<code>replace</code>指令，在hello文件夹下的go.mod 文件指定了要调用的模块在哪个文件夹。如果我们在进行多模块开发，相对于那种方式，显然使用工作空间更加方便和优雅。</p>
+<p>当我们修改完一个模块后如何正确的发布它呢？这通常是通过模块的版本控制存储库tag一个提交来完成的，这部分更多的内容可以参考<a class="link"   href="https://go.dev/doc/modules/release-workflow" >官方文档<i class="fas fa-external-link-alt"></i></a>，一旦发布完成，我们可以在模块中指定需要的版本，例如我们将 <code>golang.org/x/example</code> 发布为 <code>v0.1.0</code>那么，我们可以在hello模块使用该模块的时候指定下载对应版本的依赖</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> hello</span><br><span class="line">go get golang.org/x/example@v0.1.0</span><br></pre></td></tr></table></figure>
+
+<p>这样，Go命令就可以正确的解析工作空间外部的模块了。</p>
+<h2 id="关于工作空间的一些子命令"><a href="#关于工作空间的一些子命令" class="headerlink" title="关于工作空间的一些子命令"></a>关于工作空间的一些子命令</h2><p>除了上面我们演示到的，关于工作空间还有一些子命令，下面简单的介绍一下：</p>
+<ul>
+<li>go work use [-r] [dir]：为 go.work 文件中添加 use指令，-r 表示递归性检查</li>
+<li>go work edit：编辑 go.work 文件，类似 <code>go mod eidt</code></li>
+<li>go work sync 将工作区的构建列表中的依赖项同步至工作区中的每一个模块中</li>
+</ul>
+<p>以上就是关于 Go语言中使用工作空间的一些简单的使用和介绍。</p>
+]]></content>
+      <tags>
+        <tag>Go语言</tag>
+      </tags>
+  </entry>
 </search>
