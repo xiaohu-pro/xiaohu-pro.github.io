@@ -1,32 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>合适最重要</title>
-    <url>/2023/05/27/%E5%90%88%E9%80%82%E6%9C%80%E9%87%8D%E8%A6%81/</url>
-    <content><![CDATA[<p>不管做什么事情，选择合适的方法和道路是最重要的。还记得前几年在学习开发时候的心态，当时自己买了一台云服务器，于是想从零开始做一个个人网站，主要功能类似博客网站，具有用户管理、权限管理、内容发布等等等一些功能。当时SpringCloud正火，所以我也用了SpringCloud框架去搭建，然后从搭建到做出一个基本的雏形时我已经意识到一个问题——是不是有点杀鸡用牛刀了，我做一个个人网站有必要这样吗？而且将业务划分为颗粒度很细的微服务，感觉是在为了分而分，导致后面整个环境配置和互相协调之间都没有单体应用来的舒服，其实使用一个SpringBoot服务足以解决我的所有需求来。另外一个重要的问题是我的个人服务器配置很低，分了这么多服务，再加上MySQL等其他中间件的话配置肯定是不够。</p>
-<p>后来，随着开发的越久越发现，真的是适合才是最重要的，当然，像上面那些折腾是会学到一些东西，但是更多的我感觉是浪费时间，我们应该在有限的时间用最合适的方法去解决我们的需求和问题。例如，如果我们想写博客记录内容，我们真的有必要自己重新写一个博客系统吗？当然了，除非你是要学习如何做一个博客系统，但是如果你只是想建立自己的博客网站的话完全是不需要把时间浪费在那上面，使用Hexo（我现在在使用的）或者Z-Blog等等，这些完全可以实现我们的要求，在满足一定自定义个性化设置的基础上快速的让我们聚焦到真正的需求上——写博客、记录。</p>
-<p>在学习前端框架的时候我一开始也是遇到了纠结的问题，该用Rect还是Vue，由于我之前做过微信小程序的开发，并且后面接触的第一个前端框架就是Vue.js，而且Vue的语法和微信小程序的语法是类似的，因此感觉学习起来很舒服，于是后面我就一只使用Vue，最开始我也百度过Vue和Rect哪个好这样的问题，但是后面我再没有在意了，我不想再去纠结与用什么框架，还是上面的话，合适最重要，既然我熟悉微信小程序和Vue的语法，那我为什么不选择Vue呢？如果我选择Rect的话我需要重新学习它的语法和开发习惯，这个成本有必要付出吗？我想是没有必要的，Vue和Rect都是很好的框架，并且它们都可以实现我们的需求，对于我而言，只要可以完成我的要求那么它就是好的框架。</p>
-<p>再举一个例子吧，如果有一台服务器配置很低，然后想高效的运行一些响应要求高的应用，那么我就会选择Vert.x去开发，因为它相对于SpringBoot启动时间快，占用内存少，而且它的理念就是异步编程，对响应要求高的应用很适合，总之，我想说技术只是我们的工具，我们要做的是选择合适的工具，而不是被工具所束缚。</p>
-<p>最近看到亚马逊将它们的监控业务从云服务专为单体应用，其实这也是一种化繁为简的过程，往往我们把一些问题过度复杂化。淘宝刚开始我相信也没有立马把它们的服务建立的有多么完美，用最简单高效的方法解决最迫切的需求是最重要的。后面随着业务的发展，体量的增长，自然而然的一些东西就会完善进去，就比如我用SpringCloud搭建的个人博客网站，日活用户可能都少的可怜，这时候还需要考虑那些大规模的并发操作吗？什么熔断操作、限流和服务降级这些还有用吗？我相信是完全用不到的。</p>
-<p>所以没有完美，只有合适，技术选型是如此，人生的好多事亦是如此！</p>
+    <title>Go语言中多模块工作空间使用</title>
+    <url>/2023/06/06/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="Go语言中的多模块工作空间介绍"><a href="#Go语言中的多模块工作空间介绍" class="headerlink" title="Go语言中的多模块工作空间介绍"></a>Go语言中的多模块工作空间介绍</h1><p>本片主要是介绍了Go语言中多模块工作空间的基础知识。使用多模块工作空间，我们可以告诉Go命令我们正在同时在多个模块下编写代码，并可以轻松的在这些模块中构建和运行代码。</p>
+<p>下面我们将在共享的多模块工作空间中创建两个模块，然后在这些模块之间进行修改，并在最终的构建中看到这些修改的结果。</p>
+<p><strong>注意：如果你还没有安装Go语言环境和使用基本的命令并创建模块等基本操作的话请阅读我的另外一篇博客：<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>。</strong></p>
+<h2 id="创建我们自己的模块"><a href="#创建我们自己的模块" class="headerlink" title="创建我们自己的模块"></a>创建我们自己的模块</h2><p>首先我们创建自己的模块并编写代码，在这之前我们先创建文件夹，由于我们要使用工作空间，因此我们先创建一个大的文件夹，这里我将其命名为 workspace ，后续的模块文件夹都会放到该目录下。</p>
+<p>在创建好 workspace 文件夹后进入到该文件夹下再创建我们的模块文件夹，这里还是以 hello 模块作为演示吧，所以创建 hello 文件夹并进入到hello目录下，初始化模块：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init example.com/hello</span><br></pre></td></tr></table></figure>
+
+<p>下面我们使用 <code>go get</code> 命令来为 hello 模块添加 golang.org&#x2F;x&#x2F;example 依赖，因为我们要使用这个模块中的方法。在博客<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>中有一个 <code>go mod tidy</code>的命令，如果你不使用<code>go get</code>在代码中的import中引入了这个模块时，使用<code>go mod tidy</code>也可以添加依赖，但是<code>go mod tidy</code>和<code>go get</code>还是有区别的，<code>go mod tidy</code>我们说过它除了可以添加依赖还可以清理无用依赖，一般我们拿到一个Go项目后通常运行一下<code>go mod tidy</code>来确保所有依赖被下载。如果你熟悉前端的npm或者yarn的话你可以把<code>go mod tidy</code>比作<code>yarn</code>或<code>npm install</code>命令，它是一个全局性的，而<code>go get</code>类似于<code>yarn add</code>和<code>npm install</code>命令。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go get golang.org/x/example</span><br></pre></td></tr></table></figure>
+
+<p>然后创建 hello.go 文件，并编写代码，如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//反转字符串Hello</span></span><br><span class="line">    fmt.Println(stringutil.Reverse(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建工作空间"><a href="#创建工作空间" class="headerlink" title="创建工作空间"></a>创建工作空间</h2><p>下面我们在 workspace 目录下生成一个 go.work 文件，这个文件的作用是为模块指定工作空间。</p>
+<h3 id="初始化工作空间"><a href="#初始化工作空间" class="headerlink" title="初始化工作空间"></a>初始化工作空间</h3><p>在 workspace 目录下运行下面的指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work init ./hello</span><br></pre></td></tr></table></figure>
+<p>执行完上面的指令后会在 workspace 中自动生成了一个 go.work 文件，下面是 go.work 文件中的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use ./hello</span><br></pre></td></tr></table></figure>
+<p>它的语法和 go.mod 文件类似，第一行是中<code>go</code>指令告诉Go应该使用哪个版本，use告诉我们哪个目录下的模块是主模块。因此，工作空间下的任何子目录魔窟都将处于激活状态。这里是什么意思呢？通过一个演示我们就明白了，我们在workspace 目录下新建一个test目录，然后将刚刚的 go.work 文件先删掉，再进入到test目录下，运行hello模块</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found <span class="keyword">in</span> current directory or any parent directory; see <span class="string">&#x27;go help modules&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到是无法运行成功的，下面我们再把 go.work 文件恢复或者再次使用上面的<code>go work init ./hello</code>初始化一下，此时我们再进入到test文件夹运行会运行成功。</p>
+<h3 id="在workspace目录运行程序"><a href="#在workspace目录运行程序" class="headerlink" title="在workspace目录运行程序"></a>在workspace目录运行程序</h3><p>在workspace目录下执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">olleH</span><br></pre></td></tr></table></figure>
+<p>上面的命令包含所有的模块作为主模块在工作空间，这使得我们可以引用模块中的包，甚至可以引用模块外的包。<br>下面，我们将在工作空间中添加一个<code>golang.org/x/example</code>模块的本地副本，我们将在这个模块的<code>stringutil</code>包中添加一个新的方法来代替<code>Reverse</code>方法。</p>
+<h2 id="下载并修改golang-org-x-example模块"><a href="#下载并修改golang-org-x-example模块" class="headerlink" title="下载并修改golang.org/x/example模块"></a>下载并修改<code>golang.org/x/example</code>模块</h2><p>我们使用<code>git</code>将<code>golang.org/x/example</code>模块克隆到 workspace 文件夹下，也就是我们的工作空间下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://go.googlesource.com/example</span><br></pre></td></tr></table></figure>
+
+<p>如果上面的克隆地址无法正常使用多半是因为国内无法访问该网址的问题，请尝试官方为其在GitHub设置的镜像仓库，换成如下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/golang/example</span><br></pre></td></tr></table></figure>
+
+<p>然后同样的，我们将这个模块目录添加到工作空间中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work use ./example</span><br></pre></td></tr></table></figure>
+
+<p>运行完上面的命令后，go.work 文件也发生了变化，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use (</span><br><span class="line">    ./example</span><br><span class="line">    ./hello</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>现在我们工作空间中包含了两个模块，一个是刚刚克隆到本地的 <code>golang.org/x/example</code>另一个是我们最开始创建的<code>example.com/hello</code>。这将允许我们使用一会我们在拉取模块中stringutil的副本中编写的代码，而不使用<code>go get</code>命令下载的模块缓存中的代码。</p>
+<p>下面我们就来添加一个新的方法吧，首先我们进入到 workspace&#x2F;example&#x2F;stringuil 目录下，然后创建一个名为 toupper.go 的文件，接着添加如下代码：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> stringutil</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;unicode&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToUpper</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    r := []<span class="type">rune</span>(s)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> r &#123;</span><br><span class="line">        r[i] = unicode.ToUpper(r[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">string</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面新添加的方法顾名思义，就是将传进来的参数转为大写，这里有一个新的类型 rune ，它是Go的一个内置类型，因为这里用到了Unicode，在这里可以把它理解为一个Unicode字符，在处理字符串尤其是包含多种语言字符串情况下它会使用的比较多</p>
+<p>接下来，我们回到 workspace&#x2F;hello 目录下修改我们的 hello.go 文件，将Revers方法替换为ToUpper方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(stringutil.ToUpper(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在 workspace 目录下再次运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HELLO</span><br></pre></td></tr></table></figure>
+
+<p>上面Go命令会根据go.work文件找到工作目录下包含的模块文件夹，然后找到对应我们运行命令中的模块，类似的，也会根据 go.work 解析导入 golang.org&#x2F;x&#x2F;example，如果我们把 go.work 删除掉，也就是没有使用Go的工作空间时那么会发生什么，我们来试一下， 这里我先把 go.work 文件删除掉，然后重新运行，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found in current directory or any parent directory; see &#x27;go help modules&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，没有了 go.work 文件 workspace 就是一个普通的目录，它不知道该去哪里找模块，那我们进入到 hello 文件夹下直接运行会发生什么呢？运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># example.com/hello</span><br><span class="line">.\hello.go:9:25: undefined: stringutil.ToUpper</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，提示我们没有定义 stringutil.ToUpper ，同样也是因为没有了 go.work 的指引，我们的 hello.go 不知道去哪里找这个方法</p>
+<p>还记得<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>里的例子吗？hello 和 greetings 也是两个不同的模块，他们之间的互相调用是使用了<code>replace</code>指令，在hello文件夹下的go.mod 文件指定了要调用的模块在哪个文件夹。如果我们在进行多模块开发，相对于那种方式，显然使用工作空间更加方便和优雅。</p>
+<p>当我们修改完一个模块后如何正确的发布它呢？这通常是通过模块的版本控制存储库tag一个提交来完成的，这部分更多的内容可以参考<a class="link"   href="https://go.dev/doc/modules/release-workflow" >官方文档<i class="fas fa-external-link-alt"></i></a>，一旦发布完成，我们可以在模块中指定需要的版本，例如我们将 <code>golang.org/x/example</code> 发布为 <code>v0.1.0</code>那么，我们可以在hello模块使用该模块的时候指定下载对应版本的依赖</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> hello</span><br><span class="line">go get golang.org/x/example@v0.1.0</span><br></pre></td></tr></table></figure>
+
+<p>这样，Go命令就可以正确的解析工作空间外部的模块了。</p>
+<h2 id="关于工作空间的一些子命令"><a href="#关于工作空间的一些子命令" class="headerlink" title="关于工作空间的一些子命令"></a>关于工作空间的一些子命令</h2><p>除了上面我们演示到的，关于工作空间还有一些子命令，下面简单的介绍一下：</p>
+<ul>
+<li>go work use [-r] [dir]：为 go.work 文件中添加 use指令，-r 表示递归性检查</li>
+<li>go work edit：编辑 go.work 文件，类似 <code>go mod eidt</code></li>
+<li>go work sync 将工作区的构建列表中的依赖项同步至工作区中的每一个模块中</li>
+</ul>
+<p>以上就是关于 Go语言中使用工作空间的一些简单的使用和介绍。</p>
 ]]></content>
       <tags>
-        <tag>随笔</tag>
+        <tag>Go语言</tag>
       </tags>
   </entry>
   <entry>
-    <title>学会面对困难比解决困难更重要</title>
-    <url>/2023/05/31/%E5%AD%A6%E4%BC%9A%E9%9D%A2%E5%AF%B9%E5%9B%B0%E9%9A%BE%E6%AF%94%E8%A7%A3%E5%86%B3%E5%9B%B0%E9%9A%BE%E6%9B%B4%E9%87%8D%E8%A6%81/</url>
-    <content><![CDATA[<p>从小到大我们都在解决不同的困难，学生时期我们在解决学习上的困难，解一道题、完成考试等等，小时候以为的困难老想着等我长大了就不会再有了，但那时的我们不知道越长大难题<br>反而越多，感情的问题、社交问题、工作问题等等。现在正坐在电脑前快要结婚的我发现，学生时期所谓的困难相对于现在我所面对的都是不值一提的。</p>
-<h3 id="理想与现实"><a href="#理想与现实" class="headerlink" title="理想与现实"></a>理想与现实</h3><p>我喜欢做开发，尤其喜欢独立做一些完整的项目，因为在这个过程中会让我感觉到开心，这就类似于有人在玩游戏的时候会很开心放松，或者有的在吃饭中（这个我也具备），但是我在按照自己的想法做开发的时候是最开心的。这也是我当时学习计算机的原因，我是真的因为兴趣选择了专业。但是工作后，当把兴趣作为一项工作任务时就会出现一些问题，那就是——我想开发的和我工作中做的根本不匹配，这可能和我所在的公司也有关系吧，但是我只是一个普通本科院校的学生，在这个大卷环境中，想进一家心仪的公司真是不容易，不过我还在努力，只不过不知道在我到达30多岁之前会不会实现。不过还好，现在的公司起码不加班，所以我有大把的时间做自己喜欢的事情，但……喜欢做的事情怎么才能养活我自己，这是一个很现实的问题，我无数次羡慕油管上面那些个人独立开发者的生活，不用去公司为和自己不在同一个频段的领导做事，而是自己靠自己的作品养活自己，这里的养活我觉得是物质和精神上的双重获取，我感觉这样的生活就是我理想的生活，我也再尝试，但在中国的环境里不知道容不容易，就目前来看，很难，写到这里，突然想到中国投资者经常问的一句话，假如你的东西腾讯也要做，你怎么办？是呀，如果没有一个好的环境，怎么办？不过在这之前还是努力做出一个值得被别人抄到才是重点，否则在别人眼里，你就是吹牛皮。</p>
-<p>以前，我们总想着把眼前的这个难题解开，只有解开了我们在罢休，但有时候，困难是无形之中存在的，我们不可能马上解决，<strong>我门只能面对并且和它共存，如果我们抱着解题思维去面对后面的生活和我们的理想，那是痛苦的，直到变的没有理想。</strong></p>
-<h3 id="生活中的琐事"><a href="#生活中的琐事" class="headerlink" title="生活中的琐事"></a>生活中的琐事</h3><p>今年是特殊的一年，结婚、买房、办婚礼等等等事情都赶到一起了，这些生活上的事情比我们工作上和理想上的事情更加复杂，因为它不光涉及自己，它会涉及到很多人，就拿买房子来说，我的观念是暂时不买，需要时候再买，但是结婚必须买房这个事情是我无法改变的，当然了，如果你的另一半和另一半的家人都无所谓的话除外，但是在中国，我相信前者占大多数，我一开始内心不理解，但是我后面学会了换位思考，当我站在女方和女方家人的立场去想问题时候会一定程度上理解他们的想法，毕竟我是一个普通家庭的孩子，光靠我的一张嘴，谁知道我是在给未来画大饼还是真的会实现，说实话，我自己都不知道我所谓的梦想啥时候会实现，我只不过是在努力的朝着那个方向前进。</p>
-<p>买房最重要的就是看房，而我和我的女朋友都在北京，但我俩买房是在我们老家的市里面买（在北京肯定买不起），这导致一个问题就是每天我都在为看房发愁，那么多房源，哪个才是我的“盒子”，毕竟花出去的是我近几年攒的身家，还是有点小纠结的，这个困难也是不会马上解决，只能每天面对它，慢慢去解决它。</p>
-<p>婚礼的事情更是麻烦，由于家人对这方面也不懂，所以只能靠我自己了，我也是头一次结婚（应该只有一次，不对，肯定只有一次 ^_^），所以刚面对这些的时候我第一反应是发愁，但是开始解决的时候又发现这些问题也许没我想的那么复杂，所以我突然想明白了，我应该是没有学会如何面对困难和与困难共存，总想着把当前困难解决完就可以舒服了，但怎么可能呢？因此，<strong>重要的不是你解决了多少困难，而是你能否心态平和的和困难一起生活，学会和它做朋友！</strong></p>
-<p>上面这些想法其实就是脑子里一闪而过，但写出来感觉好多了，多年以后看看我这时自己说的所谓的困难也许会成为以后美好的回忆！</p>
+    <title>Go语言中的泛型</title>
+    <url>/2023/06/08/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="Go语言中的泛型"><a href="#Go语言中的泛型" class="headerlink" title="Go语言中的泛型"></a>Go语言中的泛型</h1><p>本文介绍了Go中泛型的基础知识。使用泛型，你可以声明和使用具有为调用代码提供的一组类型的函数或类型。在下面，我们将声明两个简单的非泛型函数，然后我们用一个泛型函数来实现相同的功能。</p>
+<p>我们将完成以下几个部分：</p>
+<ol>
+<li>为我们的代码先创建一个文件夹</li>
+<li>添加非泛型函数方法</li>
+<li>添加泛型函数方法来处理多类型</li>
+<li>当调用泛型函数方法时移除类型参数</li>
+<li>声明一个类型约束</li>
+</ol>
+<h2 id="创建代码文件夹"><a href="#创建代码文件夹" class="headerlink" title="创建代码文件夹"></a>创建代码文件夹</h2><p>这里我就将文件夹命名为 generics ，然后我们进入到该文件夹并初始化模块</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> generics</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init example/generics</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加非泛型方法"><a href="#添加非泛型方法" class="headerlink" title="添加非泛型方法"></a>添加非泛型方法</h2><p>在这一步中，我们将添加两个函数，每一个函数将map中的数相加并返回。</p>
+<h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>main.go</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumInts</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>)</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="type">int64</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">        s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumFloats</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="type">float64</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">        s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中的两个方法分别是对都以字符串为key，分别以int64和float64为value的数进行求和并返回对应的数据。下面我们编写主方法并在里面初始化两个map然后调用上面的方法</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ints := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>&#123;</span><br><span class="line">        <span class="string">&quot;first&quot;</span>: <span class="number">34</span>,</span><br><span class="line">        <span class="string">&quot;second&quot;</span>: <span class="number">12</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    floats := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>&#123;</span><br><span class="line">        <span class="string">&quot;first&quot;</span>: <span class="number">35.98</span>,</span><br><span class="line">        <span class="string">&quot;second&quot;</span>: <span class="number">26.99</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Printf(<span class="string">&quot;Non-Generic Sums: %v and %v\n&quot;</span>, SumInts(ints), SumFloats(floats))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于上面我们使用了 fmt 进行打印，因此需要引入 fmt 标准库</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h3><p>使用 <code>go run .</code>命令运行代码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run .</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加泛型方法处理多类型"><a href="#添加泛型方法处理多类型" class="headerlink" title="添加泛型方法处理多类型"></a>添加泛型方法处理多类型</h2><p>上面使用了两个方法实现类类似的功能，只不过它们的参数类型不同，如果一两个这样的操作你觉得无所谓，但是当数据类型很多时如果实现的功能相同那上面的做法很不优雅，会产生大量的冗余代码，下面我们将使用一个方法来实现上面的功能，该方法允许int64或float64作为参数类型</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumIntsOrFloats</span>[<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">int64</span> | <span class="title">float64</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">    <span class="keyword">var</span> s V</span><br><span class="line">    <span class="keyword">for</span> -, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">     s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中声明了一个SumIntsOrFloats函数，该函数具有两个类型参数（方括号里面的）K和V，以及一个使用类型参数的形参集map[K]V的m，该函数返回V类型的值。</p>
+<p>给K指定了 <code>comparable</code> 类型的参数，Go要求map的Key值具有可比性，因此将它设置为可比较的类型是必要的，这还确保了调用者对map简直的类型使用。</p>
+<p>给V指定了两种类型的并集，即int64和float64，只要符合其中的一种类型即可，形参m指定为了map[K]V，这里我们确定map是一个有效的map，因为在前面已经对K做了可比较类型的约束。下面我们修改主方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;Generic Sums: %v and %v\n&quot;</span>,</span><br><span class="line">    SumIntsOrFloats[<span class="type">string</span>, <span class="type">int64</span>](ints),</span><br><span class="line">    SumIntsOrFloats[<span class="type">string</span>, <span class="type">float64</span>](floats))</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行代码-1"><a href="#运行代码-1" class="headerlink" title="运行代码"></a>运行代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run .</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Generic Sums: 46 and 62.97</span><br></pre></td></tr></table></figure>
+<p>可以看到，是同样的结果，但是我们使用了泛型函数只需要一个函数就可以。</p>
+<h2 id="调用时移除类型参数"><a href="#调用时移除类型参数" class="headerlink" title="调用时移除类型参数"></a>调用时移除类型参数</h2><p>在上面的main方法中我们在调用泛型方法时加了参数类型，也就是中括号里面的内容<code>[string, int64]</code>来告诉泛型函数我们调用时传递的参数类型，但其实Go编译器在编译的时候是可以根据方法参数推断出参数的类型，因此我们可以省略不写。但是注意：<strong>这并不总是可能的，如果被调用的泛型函数没有参数，此时我们在调用方法的时候应该包含参数类型。</strong><br>下面我们修改一下main.go的代码：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;Generic Sums, type parameters inferred: %v and %v\n&quot;</span>,</span><br><span class="line">	SumIntsOrFloats(ints),</span><br><span class="line">	SumIntsOrFloats(floats))</span><br></pre></td></tr></table></figure>
+<p>下面我们运行代码，这次我把上面的两个打印都放开，对比一下，结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums, type parameters inferred: 46 and 62.97</span><br></pre></td></tr></table></figure>
+<p>可以看到，当我们省略了参数类型的时候依然正确的运行了程序，说明Go编译的时候自动推断出了参数的类型。</p>
+<h2 id="声明类型约束接口"><a href="#声明类型约束接口" class="headerlink" title="声明类型约束接口"></a>声明类型约束接口</h2><p>下面，我们将把前面定义的约束移动到我们自己的接口中，这样我们就可以在多个地方重用它，这种声明方式有助于简化代码，例如当约束更复杂时。<br>当我们将类型约束声明为接口，约束允许实现接口的任何类型。例如，如果用三个方法声明类型约束接口，然后将其与泛型函数中的类型参数一起使用，则用于调用该函数的类型参数被许具有所有的这些方法。<br>约束接口也可以引用特定的类型，例如我们下面这样使用</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Number <span class="keyword">interface</span> &#123;</span><br><span class="line">    <span class="type">int64</span> | <span class="type">float64</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">在上面的代码中，我们声明了一个名为Number的约束接口，在接口内声明了<span class="type">int64</span>和<span class="type">float64</span>的并集，下面当我们需要使用<span class="string">`int64 | float64`</span>这样的约束类型时就可以使用Number这个类型，而不需要写<span class="string">`int64 | float64`</span>代码如下</span><br><span class="line">~~~<span class="keyword">go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumNumbers</span>[<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">Number</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们将main.go中添加新方法的打印</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.printf(<span class="string">&quot;Generic Sums with Constraint: %v and %v\n&quot;</span>,</span><br><span class="line">	SumNumbers(ints),</span><br><span class="line">	SumNumbers(floats))</span><br></pre></td></tr></table></figure>
+<p>然后我们运行代码，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums, type parameters inferred: 46 and 62.97</span><br><span class="line">Generic Sums with Constraint: 46 and 62.97</span><br></pre></td></tr></table></figure>
+
+<h3 id="本文最终完整代码"><a href="#本文最终完整代码" class="headerlink" title="本文最终完整代码"></a>本文最终完整代码</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Number <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="type">int64</span> | <span class="type">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Non-Generic Function</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumInts</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>)</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s <span class="type">int64</span></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumFloat</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s <span class="type">float64</span></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generic Function</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumIntsOrFloats</span> [<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">int64</span> | <span class="title">float64</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumNumbers</span> [<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">Number</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ints := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span> &#123;</span><br><span class="line">		<span class="string">&quot;first&quot;</span>: <span class="number">34</span>,</span><br><span class="line">		<span class="string">&quot;second&quot;</span>: <span class="number">12</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	floats := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span> &#123;</span><br><span class="line">		<span class="string">&quot;first&quot;</span>: <span class="number">35.98</span>,</span><br><span class="line">		<span class="string">&quot;second&quot;</span>: <span class="number">26.99</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">&quot;Non-Generic Sums: %v and %v\n&quot;</span>, SumInts(ints), SumFloat(floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums: %v and %v\n&quot;</span>, SumIntsOrFloats[<span class="type">string</span>, <span class="type">int64</span>](ints), SumIntsOrFloats[<span class="type">string</span>, <span class="type">float64</span>](floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums, type parameters inferred: %v and %v\n&quot;</span>, SumIntsOrFloats(ints), SumIntsOrFloats(floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums with Constraint: %v and %v\n&quot;</span>, SumNumbers(ints), SumNumbers(floats))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <tags>
-        <tag>随笔</tag>
+        <tag>Go语言</tag>
       </tags>
   </entry>
   <entry>
@@ -197,145 +310,20 @@
       </tags>
   </entry>
   <entry>
-    <title>Go语言中多模块工作空间使用</title>
-    <url>/2023/06/06/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="Go语言中的多模块工作空间介绍"><a href="#Go语言中的多模块工作空间介绍" class="headerlink" title="Go语言中的多模块工作空间介绍"></a>Go语言中的多模块工作空间介绍</h1><p>本片主要是介绍了Go语言中多模块工作空间的基础知识。使用多模块工作空间，我们可以告诉Go命令我们正在同时在多个模块下编写代码，并可以轻松的在这些模块中构建和运行代码。</p>
-<p>下面我们将在共享的多模块工作空间中创建两个模块，然后在这些模块之间进行修改，并在最终的构建中看到这些修改的结果。</p>
-<p><strong>注意：如果你还没有安装Go语言环境和使用基本的命令并创建模块等基本操作的话请阅读我的另外一篇博客：<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>。</strong></p>
-<h2 id="创建我们自己的模块"><a href="#创建我们自己的模块" class="headerlink" title="创建我们自己的模块"></a>创建我们自己的模块</h2><p>首先我们创建自己的模块并编写代码，在这之前我们先创建文件夹，由于我们要使用工作空间，因此我们先创建一个大的文件夹，这里我将其命名为 workspace ，后续的模块文件夹都会放到该目录下。</p>
-<p>在创建好 workspace 文件夹后进入到该文件夹下再创建我们的模块文件夹，这里还是以 hello 模块作为演示吧，所以创建 hello 文件夹并进入到hello目录下，初始化模块：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init example.com/hello</span><br></pre></td></tr></table></figure>
-
-<p>下面我们使用 <code>go get</code> 命令来为 hello 模块添加 golang.org&#x2F;x&#x2F;example 依赖，因为我们要使用这个模块中的方法。在博客<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>中有一个 <code>go mod tidy</code>的命令，如果你不使用<code>go get</code>在代码中的import中引入了这个模块时，使用<code>go mod tidy</code>也可以添加依赖，但是<code>go mod tidy</code>和<code>go get</code>还是有区别的，<code>go mod tidy</code>我们说过它除了可以添加依赖还可以清理无用依赖，一般我们拿到一个Go项目后通常运行一下<code>go mod tidy</code>来确保所有依赖被下载。如果你熟悉前端的npm或者yarn的话你可以把<code>go mod tidy</code>比作<code>yarn</code>或<code>npm install</code>命令，它是一个全局性的，而<code>go get</code>类似于<code>yarn add</code>和<code>npm install</code>命令。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go get golang.org/x/example</span><br></pre></td></tr></table></figure>
-
-<p>然后创建 hello.go 文件，并编写代码，如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">//反转字符串Hello</span></span><br><span class="line">    fmt.Println(stringutil.Reverse(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行代码：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建工作空间"><a href="#创建工作空间" class="headerlink" title="创建工作空间"></a>创建工作空间</h2><p>下面我们在 workspace 目录下生成一个 go.work 文件，这个文件的作用是为模块指定工作空间。</p>
-<h3 id="初始化工作空间"><a href="#初始化工作空间" class="headerlink" title="初始化工作空间"></a>初始化工作空间</h3><p>在 workspace 目录下运行下面的指令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work init ./hello</span><br></pre></td></tr></table></figure>
-<p>执行完上面的指令后会在 workspace 中自动生成了一个 go.work 文件，下面是 go.work 文件中的内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use ./hello</span><br></pre></td></tr></table></figure>
-<p>它的语法和 go.mod 文件类似，第一行是中<code>go</code>指令告诉Go应该使用哪个版本，use告诉我们哪个目录下的模块是主模块。因此，工作空间下的任何子目录魔窟都将处于激活状态。这里是什么意思呢？通过一个演示我们就明白了，我们在workspace 目录下新建一个test目录，然后将刚刚的 go.work 文件先删掉，再进入到test目录下，运行hello模块</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found <span class="keyword">in</span> current directory or any parent directory; see <span class="string">&#x27;go help modules&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>可以看到是无法运行成功的，下面我们再把 go.work 文件恢复或者再次使用上面的<code>go work init ./hello</code>初始化一下，此时我们再进入到test文件夹运行会运行成功。</p>
-<h3 id="在workspace目录运行程序"><a href="#在workspace目录运行程序" class="headerlink" title="在workspace目录运行程序"></a>在workspace目录运行程序</h3><p>在workspace目录下执行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">olleH</span><br></pre></td></tr></table></figure>
-<p>上面的命令包含所有的模块作为主模块在工作空间，这使得我们可以引用模块中的包，甚至可以引用模块外的包。<br>下面，我们将在工作空间中添加一个<code>golang.org/x/example</code>模块的本地副本，我们将在这个模块的<code>stringutil</code>包中添加一个新的方法来代替<code>Reverse</code>方法。</p>
-<h2 id="下载并修改golang-org-x-example模块"><a href="#下载并修改golang-org-x-example模块" class="headerlink" title="下载并修改golang.org/x/example模块"></a>下载并修改<code>golang.org/x/example</code>模块</h2><p>我们使用<code>git</code>将<code>golang.org/x/example</code>模块克隆到 workspace 文件夹下，也就是我们的工作空间下</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://go.googlesource.com/example</span><br></pre></td></tr></table></figure>
-
-<p>如果上面的克隆地址无法正常使用多半是因为国内无法访问该网址的问题，请尝试官方为其在GitHub设置的镜像仓库，换成如下命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/golang/example</span><br></pre></td></tr></table></figure>
-
-<p>然后同样的，我们将这个模块目录添加到工作空间中</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go work use ./example</span><br></pre></td></tr></table></figure>
-
-<p>运行完上面的命令后，go.work 文件也发生了变化，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">go 1.20</span><br><span class="line"></span><br><span class="line">use (</span><br><span class="line">    ./example</span><br><span class="line">    ./hello</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p>现在我们工作空间中包含了两个模块，一个是刚刚克隆到本地的 <code>golang.org/x/example</code>另一个是我们最开始创建的<code>example.com/hello</code>。这将允许我们使用一会我们在拉取模块中stringutil的副本中编写的代码，而不使用<code>go get</code>命令下载的模块缓存中的代码。</p>
-<p>下面我们就来添加一个新的方法吧，首先我们进入到 workspace&#x2F;example&#x2F;stringuil 目录下，然后创建一个名为 toupper.go 的文件，接着添加如下代码：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> stringutil</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;unicode&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToUpper</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    r := []<span class="type">rune</span>(s)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> r &#123;</span><br><span class="line">        r[i] = unicode.ToUpper(r[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">string</span>(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面新添加的方法顾名思义，就是将传进来的参数转为大写，这里有一个新的类型 rune ，它是Go的一个内置类型，因为这里用到了Unicode，在这里可以把它理解为一个Unicode字符，在处理字符串尤其是包含多种语言字符串情况下它会使用的比较多</p>
-<p>接下来，我们回到 workspace&#x2F;hello 目录下修改我们的 hello.go 文件，将Revers方法替换为ToUpper方法：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;golang.org/x/example/stringutil&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(stringutil.ToUpper(<span class="string">&quot;Hello&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后我们在 workspace 目录下再次运行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run example.com/hello</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HELLO</span><br></pre></td></tr></table></figure>
-
-<p>上面Go命令会根据go.work文件找到工作目录下包含的模块文件夹，然后找到对应我们运行命令中的模块，类似的，也会根据 go.work 解析导入 golang.org&#x2F;x&#x2F;example，如果我们把 go.work 删除掉，也就是没有使用Go的工作空间时那么会发生什么，我们来试一下， 这里我先把 go.work 文件删除掉，然后重新运行，结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">no required module provides package example.com/hello: go.mod file not found in current directory or any parent directory; see &#x27;go help modules&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，没有了 go.work 文件 workspace 就是一个普通的目录，它不知道该去哪里找模块，那我们进入到 hello 文件夹下直接运行会发生什么呢？运行结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># example.com/hello</span><br><span class="line">.\hello.go:9:25: undefined: stringutil.ToUpper</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，提示我们没有定义 stringutil.ToUpper ，同样也是因为没有了 go.work 的指引，我们的 hello.go 不知道去哪里找这个方法</p>
-<p>还记得<a class="link"   href="https://blog.csdn.net/hhl18730252820/article/details/131003961" >Go语言入门教程<i class="fas fa-external-link-alt"></i></a>里的例子吗？hello 和 greetings 也是两个不同的模块，他们之间的互相调用是使用了<code>replace</code>指令，在hello文件夹下的go.mod 文件指定了要调用的模块在哪个文件夹。如果我们在进行多模块开发，相对于那种方式，显然使用工作空间更加方便和优雅。</p>
-<p>当我们修改完一个模块后如何正确的发布它呢？这通常是通过模块的版本控制存储库tag一个提交来完成的，这部分更多的内容可以参考<a class="link"   href="https://go.dev/doc/modules/release-workflow" >官方文档<i class="fas fa-external-link-alt"></i></a>，一旦发布完成，我们可以在模块中指定需要的版本，例如我们将 <code>golang.org/x/example</code> 发布为 <code>v0.1.0</code>那么，我们可以在hello模块使用该模块的时候指定下载对应版本的依赖</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> hello</span><br><span class="line">go get golang.org/x/example@v0.1.0</span><br></pre></td></tr></table></figure>
-
-<p>这样，Go命令就可以正确的解析工作空间外部的模块了。</p>
-<h2 id="关于工作空间的一些子命令"><a href="#关于工作空间的一些子命令" class="headerlink" title="关于工作空间的一些子命令"></a>关于工作空间的一些子命令</h2><p>除了上面我们演示到的，关于工作空间还有一些子命令，下面简单的介绍一下：</p>
-<ul>
-<li>go work use [-r] [dir]：为 go.work 文件中添加 use指令，-r 表示递归性检查</li>
-<li>go work edit：编辑 go.work 文件，类似 <code>go mod eidt</code></li>
-<li>go work sync 将工作区的构建列表中的依赖项同步至工作区中的每一个模块中</li>
-</ul>
-<p>以上就是关于 Go语言中使用工作空间的一些简单的使用和介绍。</p>
+    <title>使用北京公积金异地贷款买房完结</title>
+    <url>/2023/07/30/%E4%BD%BF%E7%94%A8%E5%8C%97%E4%BA%AC%E5%85%AC%E7%A7%AF%E9%87%91%E5%BC%82%E5%9C%B0%E8%B4%B7%E6%AC%BE%E4%B9%B0%E6%88%BF%E5%AE%8C%E7%BB%93/</url>
+    <content><![CDATA[<p>最近这段时间一直没有更新博客，除了懒和工作忙以外主要还因为处理了北京公积金异地贷款的流程，到目前为止所有的流程都已经走完了，已经放款了。虽然办理不是每天都需要时间，但是心里有事情的时候干什么都提不起劲来，索性想着等忙完以后再更新博文。本篇博文与技术无关，主要市生活经验分享，下面我就大体分享一下我的整个买房过程。</p>
+<h3 id="购买房子"><a href="#购买房子" class="headerlink" title="购买房子"></a>购买房子</h3><p>第一步首先你确定了要购买的房子，然后询问是否支持公积金贷款，当时我不太懂，每到一个楼盘都问支不支持北京公积金贷款，其实你只要问他们支不支持公积金贷款就行，因为异地贷款政策是和当地公积金管理中心的政策有关的，也就是如果当地支持，那么只要支持公积金贷款的楼盘就支持北京公积金贷款，所以在买房前要询问好当地的公积金管理中心，可以打12329电环咨询，当然前面需要加上对应的区号，不然拨打的就是当地的公积金管理中心。近几年大部分楼盘都支持公积金贷款了，别的地方不太清楚，就呼和浩特而言基本所有楼盘都支持。哦，对了，还要查询一下该楼盘是否是当地公积金管理中心的合作楼盘，<strong>合作楼盘在办理公积金贷款的时候不需要缴纳保证金，因为开发商已经缴纳过了。</strong></p>
+<h3 id="网签备案"><a href="#网签备案" class="headerlink" title="网签备案"></a>网签备案</h3><p>付完首付，签了购房合同后就要让开发商进行网签备案，这一步很重要，如果不备案的话下面的步骤无法进行。</p>
+<h3 id="办理预告登记"><a href="#办理预告登记" class="headerlink" title="办理预告登记"></a>办理预告登记</h3><p>备案的结果可以使用当地的房管局官网自行查询，也可以询问开发商办理进度，备案完成后我们需要进行预告登记，这一步可以防止一房多卖，当前也是为了拿到不动产登记证明，因为在后面去公积金管理中心办理贷款申请的时候需要不动产登记证明，预告登记办理速度很快，20分钟左右就可以（呼和浩特目前是这样的）。办理的时候需要提供：购房人的身份证原件，注意，如果购房时写的是两个人的名字，双方必须全部到场、约定书、申请书、授权委托书、营业执照复印件，其中除了身份证，其他的都是开发商为你准备好的。</p>
+<h3 id="办理公积金贷款审核"><a href="#办理公积金贷款审核" class="headerlink" title="办理公积金贷款审核"></a>办理公积金贷款审核</h3><p>所有流程中最麻烦和流程多的就是这一步了，首先我们需要拿上上面办理预告登记最后取得的不动产登记证明，然后打印房屋套数，这个可以在办理预告登记的房管局机器自主打印，然后打印征信报告，当然购房合同也是需要的，而且还需要购房的首付款发票，这次除了身份证还需要户口本，如果是夫妻共同贷款还需要结婚证，然后再准备一张当地公积金中心指定范围内的银行卡作为当地为你新开通公积金账号绑定的银行卡，以后还款就是用这张卡，我为了方便直接使用北京公积金中心绑定的银行卡，这样提取出来的钱直接就可以用，最重要的一点，这一点是针对异地贷款的，我们需要在北京公积金官网开具异地缴存证明，然后还有你缴纳社保的信息，这些都可以在网上办理，这里有一个小插曲，因为2022年疫情原因，北京出台了企业可以缓交公积金的政策，我女朋友的医院办理了缓交，导致开具的异地公积金缴存证明上的连续缴存日期是断开的，显示不够6个月，这个需要我们沟通了，第一次我们因为这个没有办理成功，对方告知要等补缴完成才可以，后来经过我的打电话反馈等一系列操作，第二次回去办的时候直接就办理了（特殊情况特殊处理嘛，疫情都懂得），办理成功后等公积金中心短信就行。</p>
+<h3 id="办理抵押预告登记"><a href="#办理抵押预告登记" class="headerlink" title="办理抵押预告登记"></a>办理抵押预告登记</h3><p>短信通知审核通过后（一般是7个工作日），我们就可以再次回去办理抵押手续了，记得带好当时的银行卡，然后去了以后要到指定的窗口使用手机银行签约一个授权，以便于后期扣款，否则会扣款失败，然后去指定窗口领取贷款材料，我们要拿着这些材料去不动产登记中心办理预告，一般公积金和不动产都是在同一栋楼办公的，像我所在的呼和浩特2楼市不动产登记中心，4楼市公积金，所以办理还是很方便的，拿着材料去不动产办理好抵押预告登记拿到抵押预告登记证，然后我们拿着这个抵押预告登记证再送回公积金管理中心，然后等待放款即可，一般在15个工作日。</p>
+<h3 id="领取放款材料"><a href="#领取放款材料" class="headerlink" title="领取放款材料"></a>领取放款材料</h3><p>等短信通知放款成功后我们可以在2个工作日后（别去太早）去领取放款材料，里面有贷款合同和异地贷款的回执，回执根据你缴纳公积金的地方政策看是否需要送回公积金中心，北京我打电话咨询说没有强制要求，所以我就没送，这时你贷款的钱公积金中心已经打给了开发商了，所以现在开发商已经拿到我们贷款的所有金额了，我们以后还钱也是还公积金中心的，所以我们拿着放款材料去开发商那里开具发票，首付款发票我已经有了，所以再开具尾款发票即可。</p>
+<h3 id="苦命的开始还款"><a href="#苦命的开始还款" class="headerlink" title="苦命的开始还款"></a>苦命的开始还款</h3><p>最后，你只要老老实实的把你的钱定期足额的还给银行就可以，不然你就会被赶出去～～～</p>
+<p>大概就是这样的，最近在学习React的Next.js框架，但是感觉学习状态不如以前了，有点拖延症了，效率太低，该恢复恢复了。对了还有一件事，周四的时候我们老大突然请我们组吃饭，感觉就不对劲，因为是他自费，果然，我们组刚转岗过来的一个大哥，待了三个月被裁员了，有家庭有孩子，不过补偿是给了，但是……嗯……，看来我的独立开发者梦想得加快进程了。</p>
 ]]></content>
       <tags>
-        <tag>Go语言</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go语言中的泛型</title>
-    <url>/2023/06/08/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="Go语言中的泛型"><a href="#Go语言中的泛型" class="headerlink" title="Go语言中的泛型"></a>Go语言中的泛型</h1><p>本文介绍了Go中泛型的基础知识。使用泛型，你可以声明和使用具有为调用代码提供的一组类型的函数或类型。在下面，我们将声明两个简单的非泛型函数，然后我们用一个泛型函数来实现相同的功能。</p>
-<p>我们将完成以下几个部分：</p>
-<ol>
-<li>为我们的代码先创建一个文件夹</li>
-<li>添加非泛型函数方法</li>
-<li>添加泛型函数方法来处理多类型</li>
-<li>当调用泛型函数方法时移除类型参数</li>
-<li>声明一个类型约束</li>
-</ol>
-<h2 id="创建代码文件夹"><a href="#创建代码文件夹" class="headerlink" title="创建代码文件夹"></a>创建代码文件夹</h2><p>这里我就将文件夹命名为 generics ，然后我们进入到该文件夹并初始化模块</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> generics</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init example/generics</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加非泛型方法"><a href="#添加非泛型方法" class="headerlink" title="添加非泛型方法"></a>添加非泛型方法</h2><p>在这一步中，我们将添加两个函数，每一个函数将map中的数相加并返回。</p>
-<h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>main.go</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumInts</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>)</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="type">int64</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">        s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumFloats</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s <span class="type">float64</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">        s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码中的两个方法分别是对都以字符串为key，分别以int64和float64为value的数进行求和并返回对应的数据。下面我们编写主方法并在里面初始化两个map然后调用上面的方法</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ints := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>&#123;</span><br><span class="line">        <span class="string">&quot;first&quot;</span>: <span class="number">34</span>,</span><br><span class="line">        <span class="string">&quot;second&quot;</span>: <span class="number">12</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    floats := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>&#123;</span><br><span class="line">        <span class="string">&quot;first&quot;</span>: <span class="number">35.98</span>,</span><br><span class="line">        <span class="string">&quot;second&quot;</span>: <span class="number">26.99</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Printf(<span class="string">&quot;Non-Generic Sums: %v and %v\n&quot;</span>, SumInts(ints), SumFloats(floats))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由于上面我们使用了 fmt 进行打印，因此需要引入 fmt 标准库</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h3><p>使用 <code>go run .</code>命令运行代码</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run .</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加泛型方法处理多类型"><a href="#添加泛型方法处理多类型" class="headerlink" title="添加泛型方法处理多类型"></a>添加泛型方法处理多类型</h2><p>上面使用了两个方法实现类类似的功能，只不过它们的参数类型不同，如果一两个这样的操作你觉得无所谓，但是当数据类型很多时如果实现的功能相同那上面的做法很不优雅，会产生大量的冗余代码，下面我们将使用一个方法来实现上面的功能，该方法允许int64或float64作为参数类型</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumIntsOrFloats</span>[<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">int64</span> | <span class="title">float64</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">    <span class="keyword">var</span> s V</span><br><span class="line">    <span class="keyword">for</span> -, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">     s += v</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的代码中声明了一个SumIntsOrFloats函数，该函数具有两个类型参数（方括号里面的）K和V，以及一个使用类型参数的形参集map[K]V的m，该函数返回V类型的值。</p>
-<p>给K指定了 <code>comparable</code> 类型的参数，Go要求map的Key值具有可比性，因此将它设置为可比较的类型是必要的，这还确保了调用者对map简直的类型使用。</p>
-<p>给V指定了两种类型的并集，即int64和float64，只要符合其中的一种类型即可，形参m指定为了map[K]V，这里我们确定map是一个有效的map，因为在前面已经对K做了可比较类型的约束。下面我们修改主方法：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;Generic Sums: %v and %v\n&quot;</span>,</span><br><span class="line">    SumIntsOrFloats[<span class="type">string</span>, <span class="type">int64</span>](ints),</span><br><span class="line">    SumIntsOrFloats[<span class="type">string</span>, <span class="type">float64</span>](floats))</span><br></pre></td></tr></table></figure>
-
-<h3 id="运行代码-1"><a href="#运行代码-1" class="headerlink" title="运行代码"></a>运行代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go run .</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Generic Sums: 46 and 62.97</span><br></pre></td></tr></table></figure>
-<p>可以看到，是同样的结果，但是我们使用了泛型函数只需要一个函数就可以。</p>
-<h2 id="调用时移除类型参数"><a href="#调用时移除类型参数" class="headerlink" title="调用时移除类型参数"></a>调用时移除类型参数</h2><p>在上面的main方法中我们在调用泛型方法时加了参数类型，也就是中括号里面的内容<code>[string, int64]</code>来告诉泛型函数我们调用时传递的参数类型，但其实Go编译器在编译的时候是可以根据方法参数推断出参数的类型，因此我们可以省略不写。但是注意：<strong>这并不总是可能的，如果被调用的泛型函数没有参数，此时我们在调用方法的时候应该包含参数类型。</strong><br>下面我们修改一下main.go的代码：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.Printf(<span class="string">&quot;Generic Sums, type parameters inferred: %v and %v\n&quot;</span>,</span><br><span class="line">	SumIntsOrFloats(ints),</span><br><span class="line">	SumIntsOrFloats(floats))</span><br></pre></td></tr></table></figure>
-<p>下面我们运行代码，这次我把上面的两个打印都放开，对比一下，结果是：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums, type parameters inferred: 46 and 62.97</span><br></pre></td></tr></table></figure>
-<p>可以看到，当我们省略了参数类型的时候依然正确的运行了程序，说明Go编译的时候自动推断出了参数的类型。</p>
-<h2 id="声明类型约束接口"><a href="#声明类型约束接口" class="headerlink" title="声明类型约束接口"></a>声明类型约束接口</h2><p>下面，我们将把前面定义的约束移动到我们自己的接口中，这样我们就可以在多个地方重用它，这种声明方式有助于简化代码，例如当约束更复杂时。<br>当我们将类型约束声明为接口，约束允许实现接口的任何类型。例如，如果用三个方法声明类型约束接口，然后将其与泛型函数中的类型参数一起使用，则用于调用该函数的类型参数被许具有所有的这些方法。<br>约束接口也可以引用特定的类型，例如我们下面这样使用</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Number <span class="keyword">interface</span> &#123;</span><br><span class="line">    <span class="type">int64</span> | <span class="type">float64</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">在上面的代码中，我们声明了一个名为Number的约束接口，在接口内声明了<span class="type">int64</span>和<span class="type">float64</span>的并集，下面当我们需要使用<span class="string">`int64 | float64`</span>这样的约束类型时就可以使用Number这个类型，而不需要写<span class="string">`int64 | float64`</span>代码如下</span><br><span class="line">~~~<span class="keyword">go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumNumbers</span>[<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">Number</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后我们将main.go中添加新方法的打印</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fmt.printf(<span class="string">&quot;Generic Sums with Constraint: %v and %v\n&quot;</span>,</span><br><span class="line">	SumNumbers(ints),</span><br><span class="line">	SumNumbers(floats))</span><br></pre></td></tr></table></figure>
-<p>然后我们运行代码，结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Non-Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums: 46 and 62.97</span><br><span class="line">Generic Sums, type parameters inferred: 46 and 62.97</span><br><span class="line">Generic Sums with Constraint: 46 and 62.97</span><br></pre></td></tr></table></figure>
-
-<h3 id="本文最终完整代码"><a href="#本文最终完整代码" class="headerlink" title="本文最终完整代码"></a>本文最终完整代码</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Number <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="type">int64</span> | <span class="type">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Non-Generic Function</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumInts</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span>)</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s <span class="type">int64</span></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumFloat</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s <span class="type">float64</span></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generic Function</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumIntsOrFloats</span> [<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">int64</span> | <span class="title">float64</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SumNumbers</span> [<span class="title">K</span> <span class="title">comparable</span>, <span class="title">V</span> <span class="title">Number</span>]<span class="params">(m <span class="keyword">map</span>[K]V)</span></span> V &#123;</span><br><span class="line">	<span class="keyword">var</span> s V</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		s += v</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ints := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int64</span> &#123;</span><br><span class="line">		<span class="string">&quot;first&quot;</span>: <span class="number">34</span>,</span><br><span class="line">		<span class="string">&quot;second&quot;</span>: <span class="number">12</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	floats := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">float64</span> &#123;</span><br><span class="line">		<span class="string">&quot;first&quot;</span>: <span class="number">35.98</span>,</span><br><span class="line">		<span class="string">&quot;second&quot;</span>: <span class="number">26.99</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Printf(<span class="string">&quot;Non-Generic Sums: %v and %v\n&quot;</span>, SumInts(ints), SumFloat(floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums: %v and %v\n&quot;</span>, SumIntsOrFloats[<span class="type">string</span>, <span class="type">int64</span>](ints), SumIntsOrFloats[<span class="type">string</span>, <span class="type">float64</span>](floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums, type parameters inferred: %v and %v\n&quot;</span>, SumIntsOrFloats(ints), SumIntsOrFloats(floats))</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Generic Sums with Constraint: %v and %v\n&quot;</span>, SumNumbers(ints), SumNumbers(floats))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Go语言</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -399,6 +387,21 @@
       </tags>
   </entry>
   <entry>
+    <title>学会面对困难比解决困难更重要</title>
+    <url>/2023/05/31/%E5%AD%A6%E4%BC%9A%E9%9D%A2%E5%AF%B9%E5%9B%B0%E9%9A%BE%E6%AF%94%E8%A7%A3%E5%86%B3%E5%9B%B0%E9%9A%BE%E6%9B%B4%E9%87%8D%E8%A6%81/</url>
+    <content><![CDATA[<p>从小到大我们都在解决不同的困难，学生时期我们在解决学习上的困难，解一道题、完成考试等等，小时候以为的困难老想着等我长大了就不会再有了，但那时的我们不知道越长大难题<br>反而越多，感情的问题、社交问题、工作问题等等。现在正坐在电脑前快要结婚的我发现，学生时期所谓的困难相对于现在我所面对的都是不值一提的。</p>
+<h3 id="理想与现实"><a href="#理想与现实" class="headerlink" title="理想与现实"></a>理想与现实</h3><p>我喜欢做开发，尤其喜欢独立做一些完整的项目，因为在这个过程中会让我感觉到开心，这就类似于有人在玩游戏的时候会很开心放松，或者有的在吃饭中（这个我也具备），但是我在按照自己的想法做开发的时候是最开心的。这也是我当时学习计算机的原因，我是真的因为兴趣选择了专业。但是工作后，当把兴趣作为一项工作任务时就会出现一些问题，那就是——我想开发的和我工作中做的根本不匹配，这可能和我所在的公司也有关系吧，但是我只是一个普通本科院校的学生，在这个大卷环境中，想进一家心仪的公司真是不容易，不过我还在努力，只不过不知道在我到达30多岁之前会不会实现。不过还好，现在的公司起码不加班，所以我有大把的时间做自己喜欢的事情，但……喜欢做的事情怎么才能养活我自己，这是一个很现实的问题，我无数次羡慕油管上面那些个人独立开发者的生活，不用去公司为和自己不在同一个频段的领导做事，而是自己靠自己的作品养活自己，这里的养活我觉得是物质和精神上的双重获取，我感觉这样的生活就是我理想的生活，我也再尝试，但在中国的环境里不知道容不容易，就目前来看，很难，写到这里，突然想到中国投资者经常问的一句话，假如你的东西腾讯也要做，你怎么办？是呀，如果没有一个好的环境，怎么办？不过在这之前还是努力做出一个值得被别人抄到才是重点，否则在别人眼里，你就是吹牛皮。</p>
+<p>以前，我们总想着把眼前的这个难题解开，只有解开了我们在罢休，但有时候，困难是无形之中存在的，我们不可能马上解决，<strong>我门只能面对并且和它共存，如果我们抱着解题思维去面对后面的生活和我们的理想，那是痛苦的，直到变的没有理想。</strong></p>
+<h3 id="生活中的琐事"><a href="#生活中的琐事" class="headerlink" title="生活中的琐事"></a>生活中的琐事</h3><p>今年是特殊的一年，结婚、买房、办婚礼等等等事情都赶到一起了，这些生活上的事情比我们工作上和理想上的事情更加复杂，因为它不光涉及自己，它会涉及到很多人，就拿买房子来说，我的观念是暂时不买，需要时候再买，但是结婚必须买房这个事情是我无法改变的，当然了，如果你的另一半和另一半的家人都无所谓的话除外，但是在中国，我相信前者占大多数，我一开始内心不理解，但是我后面学会了换位思考，当我站在女方和女方家人的立场去想问题时候会一定程度上理解他们的想法，毕竟我是一个普通家庭的孩子，光靠我的一张嘴，谁知道我是在给未来画大饼还是真的会实现，说实话，我自己都不知道我所谓的梦想啥时候会实现，我只不过是在努力的朝着那个方向前进。</p>
+<p>买房最重要的就是看房，而我和我的女朋友都在北京，但我俩买房是在我们老家的市里面买（在北京肯定买不起），这导致一个问题就是每天我都在为看房发愁，那么多房源，哪个才是我的“盒子”，毕竟花出去的是我近几年攒的身家，还是有点小纠结的，这个困难也是不会马上解决，只能每天面对它，慢慢去解决它。</p>
+<p>婚礼的事情更是麻烦，由于家人对这方面也不懂，所以只能靠我自己了，我也是头一次结婚（应该只有一次，不对，肯定只有一次 ^_^），所以刚面对这些的时候我第一反应是发愁，但是开始解决的时候又发现这些问题也许没我想的那么复杂，所以我突然想明白了，我应该是没有学会如何面对困难和与困难共存，总想着把当前困难解决完就可以舒服了，但怎么可能呢？因此，<strong>重要的不是你解决了多少困难，而是你能否心态平和的和困难一起生活，学会和它做朋友！</strong></p>
+<p>上面这些想法其实就是脑子里一闪而过，但写出来感觉好多了，多年以后看看我这时自己说的所谓的困难也许会成为以后美好的回忆！</p>
+]]></content>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>端午安康</title>
     <url>/2023/06/23/%E7%AB%AF%E5%8D%88%E5%AE%89%E5%BA%B7/</url>
     <content><![CDATA[<p>好久没有写博客了，因为最近真的好忙啊，并不是忙工作或者学习，而是房子的事情（结婚必需品，汗），这个之后再分享这个事情。今天是端午节，本来是应该宅在家里吃点好吃的看个电影什么的，因为我是一个典型的宅男，但是今天我要去我大学时期交到的最好的朋友老家去试衣服，没错，试衣服，因为我要给他做伴郎，人生第一次做伴郎。<br>前几天他联系我让我在7月前去就行，因为7月9号就是他的婚礼了，我想了一下那就端午节吧，正好好久没有和他见面了。他是我最佩服的朋友之一，毕业后没有上一天班，一直在做自己的事业，而且还挺成功的，大学时期就开始鼓捣那些了，当时我还不理解也不懂，但现在看来是我格局小了，大学的学费和他现在的房子都是通过自己的这些鼓捣搞到手的，真的很不错，而且给自己干活真的是让我很羡慕。</p>
@@ -415,17 +418,14 @@
       </tags>
   </entry>
   <entry>
-    <title>使用北京公积金异地贷款买房完结</title>
-    <url>/2023/07/30/%E4%BD%BF%E7%94%A8%E5%8C%97%E4%BA%AC%E5%85%AC%E7%A7%AF%E9%87%91%E5%BC%82%E5%9C%B0%E8%B4%B7%E6%AC%BE%E4%B9%B0%E6%88%BF%E5%AE%8C%E7%BB%93/</url>
-    <content><![CDATA[<p>最近这段时间一直没有更新博客，除了懒和工作忙以外主要还因为处理了北京公积金异地贷款的流程，到目前为止所有的流程都已经走完了，已经放款了。虽然办理不是每天都需要时间，但是心里有事情的时候干什么都提不起劲来，索性想着等忙完以后再更新博文。本篇博文与技术无关，主要市生活经验分享，下面我就大体分享一下我的整个买房过程。</p>
-<h3 id="购买房子"><a href="#购买房子" class="headerlink" title="购买房子"></a>购买房子</h3><p>第一步首先你确定了要购买的房子，然后询问是否支持公积金贷款，当时我不太懂，每到一个楼盘都问支不支持北京公积金贷款，其实你只要问他们支不支持公积金贷款就行，因为异地贷款政策是和当地公积金管理中心的政策有关的，也就是如果当地支持，那么只要支持公积金贷款的楼盘就支持北京公积金贷款，所以在买房前要询问好当地的公积金管理中心，可以打12329电环咨询，当然前面需要加上对应的区号，不然拨打的就是当地的公积金管理中心。近几年大部分楼盘都支持公积金贷款了，别的地方不太清楚，就呼和浩特而言基本所有楼盘都支持。哦，对了，还要查询一下该楼盘是否是当地公积金管理中心的合作楼盘，<strong>合作楼盘在办理公积金贷款的时候不需要缴纳保证金，因为开发商已经缴纳过了。</strong></p>
-<h3 id="网签备案"><a href="#网签备案" class="headerlink" title="网签备案"></a>网签备案</h3><p>付完首付，签了购房合同后就要让开发商进行网签备案，这一步很重要，如果不备案的话下面的步骤无法进行。</p>
-<h3 id="办理预告登记"><a href="#办理预告登记" class="headerlink" title="办理预告登记"></a>办理预告登记</h3><p>备案的结果可以使用当地的房管局官网自行查询，也可以询问开发商办理进度，备案完成后我们需要进行预告登记，这一步可以防止一房多卖，当前也是为了拿到不动产登记证明，因为在后面去公积金管理中心办理贷款申请的时候需要不动产登记证明，预告登记办理速度很快，20分钟左右就可以（呼和浩特目前是这样的）。办理的时候需要提供：购房人的身份证原件，注意，如果购房时写的是两个人的名字，双方必须全部到场、约定书、申请书、授权委托书、营业执照复印件，其中除了身份证，其他的都是开发商为你准备好的。</p>
-<h3 id="办理公积金贷款审核"><a href="#办理公积金贷款审核" class="headerlink" title="办理公积金贷款审核"></a>办理公积金贷款审核</h3><p>所有流程中最麻烦和流程多的就是这一步了，首先我们需要拿上上面办理预告登记最后取得的不动产登记证明，然后打印房屋套数，这个可以在办理预告登记的房管局机器自主打印，然后打印征信报告，当然购房合同也是需要的，而且还需要购房的首付款发票，这次除了身份证还需要户口本，如果是夫妻共同贷款还需要结婚证，然后再准备一张当地公积金中心指定范围内的银行卡作为当地为你新开通公积金账号绑定的银行卡，以后还款就是用这张卡，我为了方便直接使用北京公积金中心绑定的银行卡，这样提取出来的钱直接就可以用，最重要的一点，这一点是针对异地贷款的，我们需要在北京公积金官网开具异地缴存证明，然后还有你缴纳社保的信息，这些都可以在网上办理，这里有一个小插曲，因为2022年疫情原因，北京出台了企业可以缓交公积金的政策，我女朋友的医院办理了缓交，导致开具的异地公积金缴存证明上的连续缴存日期是断开的，显示不够6个月，这个需要我们沟通了，第一次我们因为这个没有办理成功，对方告知要等补缴完成才可以，后来经过我的打电话反馈等一系列操作，第二次回去办的时候直接就办理了（特殊情况特殊处理嘛，疫情都懂得），办理成功后等公积金中心短信就行。</p>
-<h3 id="办理抵押预告登记"><a href="#办理抵押预告登记" class="headerlink" title="办理抵押预告登记"></a>办理抵押预告登记</h3><p>短信通知审核通过后（一般是7个工作日），我们就可以再次回去办理抵押手续了，记得带好当时的银行卡，然后去了以后要到指定的窗口使用手机银行签约一个授权，以便于后期扣款，否则会扣款失败，然后去指定窗口领取贷款材料，我们要拿着这些材料去不动产登记中心办理预告，一般公积金和不动产都是在同一栋楼办公的，像我所在的呼和浩特2楼市不动产登记中心，4楼市公积金，所以办理还是很方便的，拿着材料去不动产办理好抵押预告登记拿到抵押预告登记证，然后我们拿着这个抵押预告登记证再送回公积金管理中心，然后等待放款即可，一般在15个工作日。</p>
-<h3 id="领取放款材料"><a href="#领取放款材料" class="headerlink" title="领取放款材料"></a>领取放款材料</h3><p>等短信通知放款成功后我们可以在2个工作日后（别去太早）去领取放款材料，里面有贷款合同和异地贷款的回执，回执根据你缴纳公积金的地方政策看是否需要送回公积金中心，北京我打电话咨询说没有强制要求，所以我就没送，这时你贷款的钱公积金中心已经打给了开发商了，所以现在开发商已经拿到我们贷款的所有金额了，我们以后还钱也是还公积金中心的，所以我们拿着放款材料去开发商那里开具发票，首付款发票我已经有了，所以再开具尾款发票即可。</p>
-<h3 id="苦命的开始还款"><a href="#苦命的开始还款" class="headerlink" title="苦命的开始还款"></a>苦命的开始还款</h3><p>最后，你只要老老实实的把你的钱定期足额的还给银行就可以，不然你就会被赶出去～～～</p>
-<p>大概就是这样的，最近在学习React的Next.js框架，但是感觉学习状态不如以前了，有点拖延症了，效率太低，该恢复恢复了。对了还有一件事，周四的时候我们老大突然请我们组吃饭，感觉就不对劲，因为是他自费，果然，我们组刚转岗过来的一个大哥，待了三个月被裁员了，有家庭有孩子，不过补偿是给了，但是……嗯……，看来我的独立开发者梦想得加快进程了。</p>
+    <title>合适最重要</title>
+    <url>/2023/05/27/%E5%90%88%E9%80%82%E6%9C%80%E9%87%8D%E8%A6%81/</url>
+    <content><![CDATA[<p>不管做什么事情，选择合适的方法和道路是最重要的。还记得前几年在学习开发时候的心态，当时自己买了一台云服务器，于是想从零开始做一个个人网站，主要功能类似博客网站，具有用户管理、权限管理、内容发布等等等一些功能。当时SpringCloud正火，所以我也用了SpringCloud框架去搭建，然后从搭建到做出一个基本的雏形时我已经意识到一个问题——是不是有点杀鸡用牛刀了，我做一个个人网站有必要这样吗？而且将业务划分为颗粒度很细的微服务，感觉是在为了分而分，导致后面整个环境配置和互相协调之间都没有单体应用来的舒服，其实使用一个SpringBoot服务足以解决我的所有需求来。另外一个重要的问题是我的个人服务器配置很低，分了这么多服务，再加上MySQL等其他中间件的话配置肯定是不够。</p>
+<p>后来，随着开发的越久越发现，真的是适合才是最重要的，当然，像上面那些折腾是会学到一些东西，但是更多的我感觉是浪费时间，我们应该在有限的时间用最合适的方法去解决我们的需求和问题。例如，如果我们想写博客记录内容，我们真的有必要自己重新写一个博客系统吗？当然了，除非你是要学习如何做一个博客系统，但是如果你只是想建立自己的博客网站的话完全是不需要把时间浪费在那上面，使用Hexo（我现在在使用的）或者Z-Blog等等，这些完全可以实现我们的要求，在满足一定自定义个性化设置的基础上快速的让我们聚焦到真正的需求上——写博客、记录。</p>
+<p>在学习前端框架的时候我一开始也是遇到了纠结的问题，该用Rect还是Vue，由于我之前做过微信小程序的开发，并且后面接触的第一个前端框架就是Vue.js，而且Vue的语法和微信小程序的语法是类似的，因此感觉学习起来很舒服，于是后面我就一只使用Vue，最开始我也百度过Vue和Rect哪个好这样的问题，但是后面我再没有在意了，我不想再去纠结与用什么框架，还是上面的话，合适最重要，既然我熟悉微信小程序和Vue的语法，那我为什么不选择Vue呢？如果我选择Rect的话我需要重新学习它的语法和开发习惯，这个成本有必要付出吗？我想是没有必要的，Vue和Rect都是很好的框架，并且它们都可以实现我们的需求，对于我而言，只要可以完成我的要求那么它就是好的框架。</p>
+<p>再举一个例子吧，如果有一台服务器配置很低，然后想高效的运行一些响应要求高的应用，那么我就会选择Vert.x去开发，因为它相对于SpringBoot启动时间快，占用内存少，而且它的理念就是异步编程，对响应要求高的应用很适合，总之，我想说技术只是我们的工具，我们要做的是选择合适的工具，而不是被工具所束缚。</p>
+<p>最近看到亚马逊将它们的监控业务从云服务专为单体应用，其实这也是一种化繁为简的过程，往往我们把一些问题过度复杂化。淘宝刚开始我相信也没有立马把它们的服务建立的有多么完美，用最简单高效的方法解决最迫切的需求是最重要的。后面随着业务的发展，体量的增长，自然而然的一些东西就会完善进去，就比如我用SpringCloud搭建的个人博客网站，日活用户可能都少的可怜，这时候还需要考虑那些大规模的并发操作吗？什么熔断操作、限流和服务降级这些还有用吗？我相信是完全用不到的。</p>
+<p>所以没有完美，只有合适，技术选型是如此，人生的好多事亦是如此！</p>
 ]]></content>
       <tags>
         <tag>随笔</tag>
