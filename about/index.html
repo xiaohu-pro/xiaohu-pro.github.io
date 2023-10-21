@@ -11,7 +11,7 @@
         
             关于 |
         
-        小胡Pro的博客
+        胡编乱码BLOG
     </title>
     
 <link rel="stylesheet" href="/css/style.css">
@@ -32,7 +32,7 @@
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {}
     KEEP.hexo_config = {"hostname":"xiaohu-pro.gitee.io","root":"/","language":"zh-CN","path":"search.xml"}
-    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066cc","logo":"/images/logo.png","favicon":"/images/logo.png","avatar":"/images/avatar.jpg","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/bg.svg","description":"test","font_color":null,"hitokoto":false},"scroll":{"progress_bar":false,"percent":false}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":true,"use":"valine","valine":{"appid":"ImsDnhtap7pGkqWmvWRqcZro-gzGzoHsz","appkey":"oZJJAF3Vk0airzpVHxfCLzSd","server_urls":"https://imsdnhta.lc-cn-n1-shared.com","placeholder":"发表留言"},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"left","copyright_info":true},"version":"3.6.1"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"style":{"primary_color":"#0066cc","logo":"/images/logo.png","favicon":"/images/logo.png","avatar":"/images/logo.png","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/avatar.jpg","description":"大家好，我是胡海龙，这是我的博客胡编乱码，bilibili账号同名","hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":true,"use":"valine","valine":{"appid":"ImsDnhtap7pGkqWmvWRqcZro-gzGzoHsz","appkey":"oZJJAF3Vk0airzpVHxfCLzSd","server_urls":"https://imsdnhta.lc-cn-n1-shared.com","placeholder":"发表留言"},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"left","copyright_info":true},"version":"3.6.1"}
     KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
     KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
     KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
@@ -42,6 +42,8 @@
 
 <body>
 <div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
     
 
     
@@ -66,7 +68,7 @@
                 </a>
             
             <a class="logo-title" href="/">
-               小胡Pro的博客
+               胡编乱码BLOG
             </a>
         </div>
 
@@ -95,6 +97,14 @@
                                href="/tags"
                             >
                                 标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
                             </a>
                         </li>
                     
@@ -143,6 +153,11 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
                     <a class="active"
                        href="/about">关于</a>
                 </li>
@@ -169,18 +184,12 @@
         
         <div class="page-template-content keep-markdown-body">
             
-                <h3 id="About-me"><a href="#About-me" class="headerlink" title="About me"></a>About me</h3><p>每次搭建网站的时候“关于我”这个页面每次不知道写点啥，但是不写有感觉不完整。大家好，我的名字叫胡海龙，喜欢开发，在工作中的身份是一名后端开发程序员，但更喜欢前端（我也不知道为啥当时没做前端），如果在之前我会说熟悉什么什么语言，但时间久了发现做一个东西有时候适合更重要，所以需要什么语言就学什么语言，不要把自己局限于一些特定的语言中。</p>
-<p>这不是我的第一个博客网站了，在之前搭建过很多次，例如使用github、gitee和自己的服务器，也做过自己的博客网站。但那些应该说是为了搭建而搭建，在意的是搭建的过程或者是开发一个博客网站的过程，没有侧重与内容，现在我搭建这个博客的目的正式为了重新开始一个侧重与记录和写作的地方，一个能坚持长久写下去的地方，不会在意使用什么主题，越花里胡哨反而越容易出现审美疲劳。</p>
-<p>本站会记录一些学习的笔记或者一些有趣的事情的分享。</p>
+                <h3 id="博客介绍"><a href="#博客介绍" class="headerlink" title="博客介绍"></a>博客介绍</h3><p>Hello，大家好，欢迎浏览胡编乱码博客，本博客的内容基本对应着我的bilibili账号视频内容，是视频内容的图文版，建立该博客的目的是方便大家在观看完视频后想反复查看里面的详细内容。除了对应视频内容外还会发布一些其他分类的博文，建议收藏本站以便随时查看最新的内容。</p>
+<h3 id="关于本人"><a href="#关于本人" class="headerlink" title="关于本人"></a>关于本人</h3><p><strong>胡海龙</strong>——我本人的真实名字，1996年生人，大学的专业是计算机科学与技术，毕业后也一直从事相关专业工作。本人热爱编程，喜欢做一些自己的小作品，向往自由，期待有一天可以成为独立开发者并以此为生，目前还在为此努力中，我会在bilibili发布一些技术分享、日常Vlog的视频。有志同道合的朋友可以联系我，一起探讨。</p>
 <p>我的联系方式：</p>
 <ul>
-<li>邮箱：<a class="link"   href="mailto:&#104;&#x68;&#108;&#x77;&#x6f;&#114;&#x6b;&#x73;&#x70;&#97;&#99;&#101;&#64;&#113;&#113;&#x2e;&#x63;&#111;&#x6d;" >&#104;&#x68;&#108;&#x77;&#x6f;&#114;&#x6b;&#x73;&#x70;&#97;&#99;&#101;&#64;&#113;&#113;&#x2e;&#x63;&#111;&#x6d;<i class="fas fa-external-link-alt"></i></a></li>
+<li>E-mail：<a class="link"   href="mailto:&#104;&#104;&#108;&#x77;&#111;&#114;&#x6b;&#x73;&#x70;&#97;&#99;&#101;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;" >&#104;&#104;&#108;&#x77;&#111;&#114;&#x6b;&#x73;&#x70;&#97;&#99;&#101;&#x40;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;<i class="fas fa-external-link-alt"></i></a> | <a class="link"   href="mailto:&#x68;&#x75;&#104;&#97;&#x69;&#x6c;&#111;&#x6e;&#x67;&#x31;&#49;&#50;&#x31;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" >&#x68;&#x75;&#104;&#97;&#x69;&#x6c;&#111;&#x6e;&#x67;&#x31;&#49;&#50;&#x31;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;<i class="fas fa-external-link-alt"></i></a></li>
 <li>QQ: 1976884704</li>
-</ul>
-<p>我的个人网站：</p>
-<ul>
-<li><a class="link"   target="_blank" rel="noopener" href="https://www.huhailong.vip/" >www.huhailong.vip<i class="fas fa-external-link-alt"></i></a></li>
-<li><a class="link"   target="_blank" rel="noopener" href="https://www.devcat.cn/" >www.devcat.cn<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 
             
@@ -340,10 +349,6 @@
         
 
         
-            <li class="tools-item tool-scroll-to-top flex-center">
-                <i class="fas fa-arrow-up"></i>
-            </li>
-        
 
         <li class="tools-item tool-scroll-to-bottom flex-center">
             <i class="fas fa-arrow-down"></i>
@@ -354,6 +359,11 @@
         <li class="tools-item tool-toggle-show flex-center">
             <i class="fas fa-cog fa-spin"></i>
         </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
         
     </ul>
 </div>
